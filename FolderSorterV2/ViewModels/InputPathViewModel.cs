@@ -1,13 +1,15 @@
-﻿using FolderSorterV2.Models;
+﻿using FolderSorterV2.Data.Models;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.ComponentModel;
 using FolderSorterV2.Helper;
+using System;
+using System.Windows.Data;
 
 namespace FolderSorterV2.ViewModels
 {
-    public class InputPathViewModel
+    public class InputPathViewModel : INotifyPropertyChanged
     {
         public MyICommand AddInputCommand { get; set; }
         public MyICommand DeleteInputCommand { get; set; }
@@ -15,6 +17,9 @@ namespace FolderSorterV2.ViewModels
         public MyICommand AddRuleCommand { get; set; }
         public MyICommand EditRuleCommand { get; set; }
         public MyICommand DeleteRuleCommand { get; set; }
+
+        public MyICommand RunCommand { get; set; }
+        public MyICommand RunOnceCommand { get; set; }
 
         public InputPathViewModel()
         {
@@ -25,6 +30,9 @@ namespace FolderSorterV2.ViewModels
             EditRuleCommand = new MyICommand(OnEditRule, IsRuleSelected);
             DeleteRuleCommand = new MyICommand(OnDeleteRule, IsRuleSelected);
 
+            RunOnceCommand = new MyICommand(RunOnce);
+            RunCommand = new MyICommand(Run);
+
             Inputs = new ObservableCollection<Input>();
             LoadInputs();
 
@@ -33,6 +41,33 @@ namespace FolderSorterV2.ViewModels
             {
                 SelectedInput = Inputs[0];
             }
+        }
+
+        private string _runState = "Start";
+        public string RunState {
+            get => _runState;
+            set {
+                _runState = value;
+                RaisePropertyChanged("runState");
+            }
+        }
+
+        private void Run()
+        {
+            if(!FolderSorterV2.Lib.FolderManager.IsRunning())
+            {
+                FolderSorterV2.Lib.FolderManager.Run(Inputs.ToArray());
+                RunState = "Stop";
+            } else
+            {
+                FolderSorterV2.Lib.FolderManager.Stop();
+                RunState = "Start";
+            }
+        }
+
+        private void RunOnce()
+        {
+            FolderSorterV2.Lib.FolderManager.RunOnce(Inputs);
         }
 
         public ObservableCollection<Input> Inputs
@@ -107,6 +142,7 @@ namespace FolderSorterV2.ViewModels
                 EditRuleCommand.RaiseCanExecuteChanged();
             }
         }
+
         public bool IsRuleSelected()
         {
             if(IsInputSelected())
@@ -151,5 +187,15 @@ namespace FolderSorterV2.ViewModels
 
         #endregion
         #endregion
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void RaisePropertyChanged(string property)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(property));
+            }
+        }
     }
 }

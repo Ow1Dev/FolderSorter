@@ -1,4 +1,4 @@
-﻿using FolderSorterV2.Models;
+﻿using FolderSorterV2.Data.Models;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;

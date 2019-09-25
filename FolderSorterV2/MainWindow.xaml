@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FolderSorterV2"
         xmlns:views="clr-namespace:FolderSorterV2.View"
+        xmlns:Cop="clr-namespace:FolderSorterV2.Component"
         mc:Ignorable="d"
         Title="FolderSorter" 
         Height="450" Width="800"
@@ -13,10 +14,11 @@
         <DockPanel.Resources>
             <local:BindingProxy x:Key="Proxy" Data="{Binding}"/>
         </DockPanel.Resources>
+        <Cop:NotifyIcon x:Name="notify"/>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="Run"/>
-                <MenuItem Header="Run Once"/>
+                <MenuItem Command="{Binding RunCommand}" Header="{Binding RunState, Mode=TwoWay}"/>
+                <MenuItem Command="{Binding RunOnceCommand}" Header="Run Once"/>
             </MenuItem>
             <MenuItem Header="_Item">
                 <MenuItem Command="{Binding AddInputCommand}" Header="New InputFolder"/>

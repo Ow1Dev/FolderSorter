@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FolderSorterV2.Models
+namespace FolderSorterV2.Data.Models
 {
     public class Input : INotifyPropertyChanged
     {

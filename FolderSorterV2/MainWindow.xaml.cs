@@ -10,7 +10,7 @@ namespace FolderSorterV2
     public partial class MainWindow : Window
     {
         public static ViewModels.InputPathViewModel vm;
-        System.Windows.Forms.NotifyIcon notifyIcon = new System.Windows.Forms.NotifyIcon();
+        
 
         public MainWindow()
         {
@@ -21,21 +21,9 @@ namespace FolderSorterV2
             this.Title += " | DEBUG";
 #endif
             vm = new ViewModels.InputPathViewModel();
+
             this.DataContext = vm;
-
-            init();
-        }
-
-        #region notifyIcon
-        private void init()
-        {
-            Icon appIcon = System.Drawing.Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
-
-            notifyIcon.Icon = appIcon;
-            notifyIcon.Visible = false;
-            notifyIcon.Text = "FolderWatcher";
-
-            notifyIcon.DoubleClick += NotifyIcon_DoubleClick;
+            notify.notifyIcon.DoubleClick += NotifyIcon_DoubleClick;
 
             this.StateChanged += MainWindow_StateChanged;
         }
@@ -44,20 +32,19 @@ namespace FolderSorterV2
         {
             this.Show();
             this.WindowState = WindowState.Normal;
-            notifyIcon.Visible = false;
+            notify.notifyIcon.Visible = false;
             this.ShowInTaskbar = true;
         }
 
         private void MainWindow_StateChanged(object sender, EventArgs e)
         {
-            if(this.WindowState == WindowState.Minimized)
+            if (this.WindowState == WindowState.Minimized)
             {
-                notifyIcon.Visible = true;
+                notify.notifyIcon.Visible = true;
                 this.ShowInTaskbar = false;
                 this.Hide();
             }
         }
-        #endregion
 
         private Version getRunningVersion()
         {

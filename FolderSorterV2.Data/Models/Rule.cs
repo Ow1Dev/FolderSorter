@@ -1,4 +1,4 @@
-﻿namespace FolderSorterV2.Models
+﻿namespace FolderSorterV2.Data.Models
 {
     public class Rule
     {
