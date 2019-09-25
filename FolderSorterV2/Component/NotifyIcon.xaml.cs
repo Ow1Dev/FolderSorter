@@ -31,7 +31,7 @@ namespace FolderSorterV2.Component
 
             var RunItem = new System.Windows.Forms.MenuItem()
             {
-                Text = "Run"
+                Text = "Run Once"
             };
             var ExitItem = new System.Windows.Forms.MenuItem()
             {
@@ -39,10 +39,16 @@ namespace FolderSorterV2.Component
             };
 
             ExitItem.Click += ExitItem_Click;
+            RunItem.Click += RunItem_Click;
 
             menu.MenuItems.Add(RunItem);
             menu.MenuItems.Add(ExitItem);
             notifyIcon.ContextMenu = menu;
+        }
+
+        private void RunItem_Click(object sender, EventArgs e)
+        {
+            FolderSorterV2.Lib.FolderManager.RunOnce(MainWindow.vm.Inputs);
         }
 
         private void ExitItem_Click(object sender, EventArgs e)
