@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="FolderSorterV2.View.RuleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FolderSorterV2"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <DataGrid 
+        Background="White" 
+        RowHeaderWidth="0" IsReadOnly="True" 
+        AutoGenerateColumns="False" 
+        CanUserResizeRows="False"
+        SelectionUnit="FullRow" SelectionMode="Single" SelectedItem="{Binding SelectedRule}" ItemsSource="{Binding SelectedInput.Rules, Mode=TwoWay}">
+        <DataGrid.Resources>
+            <local:BindingProxy x:Key="Proxy" Data="{Binding}"/>
+            <ContextMenu x:Key="rowContextMenu">
+                <MenuItem Command="{Binding Source={StaticResource Proxy}, Path=Data.AddRuleCommand}" Header="New Rule"/>
+                <MenuItem Command="{Binding Source={StaticResource Proxy}, Path=Data.EditRuleCommand}" Header="Edit Rule"/>
+                <MenuItem Command="{Binding Source={StaticResource Proxy}, Path=Data.DeleteRuleCommand}" Header="Delete Rule"/>
+            </ContextMenu>
+        </DataGrid.Resources>
+        <DataGrid.Columns>
+            <DataGridTextColumn Width="*" Header="Output Folder" Binding="{Binding OutputFolder}"/>
+            <DataGridTextColumn Width="0.1*" Header="Regex" Binding="{Binding Regex}" />
+            <DataGridTextColumn Width="0.12*" Header="Priority" Binding="{Binding Priority}" />
+        </DataGrid.Columns>
+        <DataGrid.ItemContainerStyle>
+            <Style TargetType="DataGridRow">
+                <Setter Property="ContextMenu" Value="{StaticResource rowContextMenu}" />
+            </Style>
+        </DataGrid.ItemContainerStyle>
+        <DataGrid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Command="{Binding Source={StaticResource Proxy}, Path=Data.AddRuleCommand}" Header="New Rule"/>
+            </ContextMenu>
+        </DataGrid.ContextMenu>
+    </DataGrid>
+    <!--
+    <ListView ItemContainerStyle="{DynamicResource _ListBoxItemStyle}" SelectionMode="Single" SelectedItem="{Binding SelectedRule}" ItemsSource="{Binding SelectedInput.Rules, Mode=TwoWay}">
+        <ListView.Resources>
+            <local:BindingProxy x:Key="Proxy" Data="{Binding}"/>
+        </ListView.Resources>
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Command="{Binding Source={StaticResource Proxy}, Path=Data.AddRuleCommand}" Header="New Rule"/>
+                            <MenuItem Header="Edit Rule"/>
+                            <MenuItem Command="{Binding Source={StaticResource Proxy}, Path=Data.DeleteRuleCommand}" Header="Delete Rule"/>
+                        </ContextMenu>
+                    </StackPanel.ContextMenu>
+                    <TextBlock Text="{Binding OutputFolder}"/>
+                    <TextBlock Text="{Binding Regex}" Margin="10,0,0,0"/>
+                    <TextBlock Text="{Binding Priority}" Margin="10,0,0,0"/>
+                </StackPanel>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+        <ListView.ContextMenu>
+            <ContextMenu>
+                <MenuItem Command="{Binding Source={StaticResource Proxy}, Path=Data.AddRuleCommand}" Header="New Rule"/>
+            </ContextMenu>
+        </ListView.ContextMenu>
+    </ListView>
+    -->
+</UserControl>
