@@ -96,6 +96,7 @@ namespace FolderSorterV2.ViewModels
                 _selectedInput = value;
                 AddRuleCommand.RaiseCanExecuteChanged();
                 DeleteInputCommand.RaiseCanExecuteChanged();
+                RaisePropertyChanged("SelectedInput");
             }
         }
 
